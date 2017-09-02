@@ -17,6 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!-- Message -->
 		<!--<p class="form-signin-msg">Please sign in into the system</p>-->
 
+		<!-- Error message -->
+		<?php if(isset($error_msg)) echo '<div class="error-msg text-danger">',$error_msg,'</div>'; ?>
+
 		<!-- Email address -->
 		<label for="inputEmail" class="sr-only">Email address</label>
 		<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />

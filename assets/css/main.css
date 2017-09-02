@@ -30,6 +30,13 @@ body {
 	text-align: center;
 	font-size: 90%;
 }
+
+.form-signin .error-msg,
+.form-signup .error-msg {
+	text-align: center;
+	font-size: 90%;
+	padding-bottom: 10px;
+}
 .form-signin .checkbox,
 .form-signup .checkbox {
 	font-weight: normal;

@@ -17,6 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!-- Message -->
 		<p class="form-signup-msg">New account</p>
 
+		<!-- Error message -->
+		<?php if(isset($error_msg)) echo '<div class="error-msg text-danger">',$error_msg,'</div>'; ?>
+
 		<!-- Full name -->
 		<label for="inputName">Full name</label>
 		<input type="text" id="inputName" name="inputName" class="form-control" placeholder="Full name" required autofocus />

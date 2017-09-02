@@ -66,8 +66,13 @@ class Login extends Hat_Controller {
 
 		), true);
 
+		//Include specific stylesheet
+		$css_files = array(
+			path_css_assets("login/login"),
+		);
+
 		//Load page structure
-		$this->display_page("Login", array(), array(), $page_src);
+		$this->display_page("Login", $css_files, array(), $page_src);
 	}
 
 }

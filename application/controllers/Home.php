@@ -26,6 +26,16 @@ class Home extends Hat_Controller {
 		if(!$this->account->signed_in())
 			redirect("login?login_ticket=".$login_ticket);
 
+
+		//Prepare page return
+		$page_src = "";
+
+		//Include home box
+		//$page_src .= $this
+
+		//Load page structure
+		$this->display_page("Home", array(), array(), $page_src);
+
 	}
 
 }

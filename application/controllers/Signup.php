@@ -101,8 +101,14 @@ class Signup extends Hat_Controller {
 			true
 		);
 
+		//Include specific stylesheet
+		$css_files = array(
+			path_css_assets("signup/signup"),
+		);
+
+
 		//Load page structure
-		$this->display_page("Signup", array(), array(), $page_src);
+		$this->display_page("Signup", $css_files, array(), $page_src);
 	}
 
 

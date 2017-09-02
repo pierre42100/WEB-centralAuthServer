@@ -135,6 +135,17 @@ class Account extends CI_Model {
 	}
 
 	/**
+	 * Get current user informations
+	 *
+	 * @return array $infos Informations about the user
+	 */
+	public function get_infos() : array {
+
+		return $_SESSION[$this->user_sess_var];
+
+	}
+
+	/**
 	 * Crypt a user password
 	 *
 	 * @param string $password The password to crypt

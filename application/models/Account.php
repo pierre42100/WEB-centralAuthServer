@@ -10,6 +10,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Account extends CI_Model {
 
 	/**
+	 * User session variables
+	 *
+	 * @var string
+	 */
+	private $user_sess_var = "central_auth_user";
+
+	/**
 	 * Public constructor
 	 */
 	public function __construct(){
@@ -29,7 +36,22 @@ class Account extends CI_Model {
 	 * @return bool TRUE if signed in
 	 */
 	public function signed_in() : bool {
-		return false;
+		
+		//Check if the user session variable exist or not
+		if(!isset($_SESSION[$this->user_sess_var]))
+			return false;
+
+		//Check if it is an array
+		if(!is_array($_SESSION[$this->user_sess_var]))
+			return false;
+
+		//Check if it is an empty array
+		if(count($_SESSION[$this->user_sess_var]) < 1)
+			return false;
+
+		//Else user is logged in
+		return true;
+
 	}
 
 	/**
@@ -69,7 +91,47 @@ class Account extends CI_Model {
 			"creation_time" => time()
 		));
 
+	}
 
+	/**
+	 * Try to sign in user
+	 *
+	 * @param string $email The email address to search
+	 * @param string $password The password associated to the email
+	 * @return bool TRUE in case of success, false else
+	 */
+	public function sign_in(string $email, string $password){
+
+		//First, check if the mail exist in the database
+		if(!$this->exists($email))
+			return false; //Email address not found
+
+		//Retrieve user informations
+		$query_result = $this->db->get_where("users", array("email" => $email));
+
+		//Process results
+		foreach($query_result->result() as $user_infos){
+
+			//Compare the two passwords
+			if(!$this->compare_passwords($user_infos->password, $password))
+				//Password are not the same
+				return false;
+
+			//The user can be logged in
+			$_SESSION[$this->user_sess_var] = array(
+				"id" => $user_infos->ID,
+				"email" => $user_infos->email,
+				"name" => $user_infos->name,
+				"creation_time" => $user_infos->creation_time,
+			);
+
+			//Login successfull
+			return true;
+
+		}
+
+		//User couldn't be retrieved
+		return false;
 	}
 
 	/**
@@ -80,6 +142,20 @@ class Account extends CI_Model {
 	 */
 	private function crypt_password(string $password) : string {
 		return password_hash($password, PASSWORD_DEFAULT);
+	}
+
+	/**
+	 * Compare a hashed password with a not hashed one
+	 *
+	 * @param string $hashed_password The hashed password to check
+	 * @param string $password The other password (not hashed)
+	 * @return bool TRUE if the passwords are the same
+	 */
+	private function compare_passwords(string $hashed_password, string $password) : bool {
+
+		//Verity passwords
+		return password_verify($password, $hashed_password);
+
 	}
 
 }

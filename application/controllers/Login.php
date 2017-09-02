@@ -36,7 +36,12 @@ class Login extends Hat_Controller {
 				$error_msg = "Invalid password !";
 
 			//Try to login user
-			
+			if(!$this->account->sign_in($email, $password))
+				$error_msg = "Couldn't log you in with the supplied informations !";
+
+			//Else user is signed in
+			else
+				redirect("?login_ticket=".$login_ticket);
 			
 		}
 
@@ -50,7 +55,7 @@ class Login extends Hat_Controller {
 			"login_ticket" => $login_ticket,
 
 			//Default values
-			"default_mail" => isset($default_mail) ? $default_mail : "",
+			"default_mail" => isset($email) ? $email : "",
 
 			//Error message
 			"error_msg" => isset($error_msg) ? $error_msg : false,

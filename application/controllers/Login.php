@@ -16,8 +16,19 @@ class Login extends Hat_Controller {
 	 */
 	public function index(){
 
+		//Check for login ticket
+		$login_ticket = isset($_GET['login_ticket']) ? urlencode($_GET['login_ticket']) : "NONE";
+
 		//Prepare page return
-		$page_src = "";	
+		$page_src = "";
+
+		//Load login form
+		$page_src .= $this->load->view("login/v_login", array(
+			
+			//Login ticket
+			"login_ticket" => $login_ticket,
+
+		), true);
 
 		//Load page structure
 		$this->display_page("Login", array(), array(), $page_src);

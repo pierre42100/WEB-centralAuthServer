@@ -55,6 +55,24 @@ class Account extends CI_Model {
 	}
 
 	/**
+	 * Signout any currently signed in user
+	 *
+	 * @return bool TRUE for a sucess
+	 */
+	public function sign_out() : bool{
+		
+		//Check if there is anybody to sign out
+		if(!isset($_SESSION[$this->user_sess_var]))
+			return FALSE;
+
+		//Sign out user
+		unset($_SESSION[$this->user_sess_var]);
+
+		//Success
+		return TRUE;
+	}
+
+	/**
 	 * Check if an account with a specified email address exists or not
 	 *
 	 * @param string $email The email of the account to check
@@ -114,16 +132,13 @@ class Account extends CI_Model {
 
 			//Compare the two passwords
 			if(!$this->compare_passwords($user_infos->password, $password))
-				//Password are not the same
+				//Passwords are not the same
 				return false;
 
 			//The user can be logged in
-			$_SESSION[$this->user_sess_var] = array(
-				"id" => $user_infos->ID,
-				"email" => $user_infos->email,
-				"name" => $user_infos->name,
-				"creation_time" => $user_infos->creation_time,
-			);
+			//Save user informations in the session
+			$this->set_session_infos($user_infos);
+			
 
 			//Login successfull
 			return true;
@@ -139,9 +154,109 @@ class Account extends CI_Model {
 	 *
 	 * @return array $infos Informations about the user
 	 */
-	public function get_infos() : array {
-
+	public function infos_current() : array {
 		return $_SESSION[$this->user_sess_var];
+	}
+
+	/**
+	 * Get informations about a user specified by its ID
+	 *
+	 * @param int $id The ID of the user to perform the search on
+	 * @return stdClass Informations about the user
+	 */
+	public function infos_by_id(int $id) : stdClass{
+
+		//Retrieve user informations based on user ID
+		$query_result = $this->db->get_where("users", array("ID" => $id));
+
+		//Process results
+		foreach($query_result->result() as $user_infos){
+
+			//Return result
+			return $user_infos;
+
+		}
+
+		//User couldn't be retrieved
+		return false;
+	}
+
+	/**
+	 * Check if a specified password match with a specified account ID
+	 *
+	 * @param int $user_id The ID of the user to check
+	 * @param string $password The password to check
+	 * @return bool TRUE if the password is valid
+	 */
+	public function check_password(int $user_id, string $password) : bool {
+
+		//Retrieve user informations based on user ID
+		$user_infos = $this->infos_by_id($user_id);
+
+		//Compare the two passwords
+		if(!$this->compare_passwords($user_infos->password, $password))
+			//Passwords are not the same
+			return false;
+
+		//The password is correct
+		return true;
+
+	}
+
+	/**
+	 * Update a user informations
+	 *
+	 * @param int $user_id The ID of the user to update
+	 * @param string $new_name The new name of the user
+	 * @param string $new_password The new password of the user ("0" = keep current password)
+	 * @return bool TRUE in case of success
+	 */
+	public function update_infos(int $user_id, string $new_name, string $new_password) : bool {
+
+		//Prepare reuest
+		$changes = array("name" => $new_name);
+
+		//Update password if required
+		if($new_password !== "0")
+			$changes['password'] = $this->crypt_password($new_password);
+
+		//Set update conditions
+		$conditions = "ID = ".floor($user_id*1);
+
+		//Try to perform update
+		return $this->db->update("users", $changes, $conditions);
+
+	}
+
+	/**
+	 * Update informations about a signed in user
+	 */
+	public function update_signed_in_infos(){
+		//Check if user is signed in or not
+		if(!$this->signed_in())
+			return;
+
+		//Retrieve new informations about the user
+		$current_infos = $this->infos_current();
+		$new_infos = $this->infos_by_id($current_infos['id']);
+
+		//Save new informations
+		$this->set_session_infos($new_infos);
+	}
+
+	/**
+	 * Save user informations in user variable (sign in proof)
+	 *
+	 * @param stdClass $user_infos Informations about the user
+	 */
+	private function set_session_infos(stdClass $user_infos){
+
+		$_SESSION[$this->user_sess_var] = array(
+			"id" => $user_infos->ID,
+			"email" => $user_infos->email,
+			"name" => $user_infos->name,
+			"creation_time" => $user_infos->creation_time,
+		);
 
 	}
 

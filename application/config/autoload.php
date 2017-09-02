@@ -96,6 +96,7 @@ $autoload['helper'] = array(
 		//Application helpers
 		"application",
 		"assets",
+		"user",
 	);
 
 /*

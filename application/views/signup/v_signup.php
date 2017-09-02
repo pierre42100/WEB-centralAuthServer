@@ -7,6 +7,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Pierre HUBERT
  */
 
+//Check for error message
+$error_msg = isset($error_msg) ? $error_msg : false;
+
 ?><div class="container">
 
 	<form class="form-signup" method="post" action="<?php echo base_url(), "signup?login_ticket=", $login_ticket; ?>">
@@ -18,15 +21,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<p class="form-signup-msg">New account</p>
 
 		<!-- Error message -->
-		<?php if(isset($error_msg)) echo '<div class="error-msg text-danger">',$error_msg,'</div>'; ?>
+		<?php if($error_msg) echo '<div class="error-msg text-danger">',$error_msg,'</div>'; ?>
 
 		<!-- Full name -->
 		<label for="inputName">Full name</label>
-		<input type="text" id="inputName" name="inputName" class="form-control" placeholder="Full name" required autofocus />
+		<input type="text" id="inputName" name="inputName" class="form-control" placeholder="Full name" value="<?php echo $default_name; ?>" required autofocus />
 
 		<!-- Email address -->
 		<label for="inputEmail">Email address</label>
-		<input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required  />
+		<input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" value="<?php echo $default_email; ?>" required  />
 
 		<!-- Password -->
 		<label for="inputPassword" >Password</label>

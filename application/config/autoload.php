@@ -97,6 +97,7 @@ $autoload['helper'] = array(
 		"application",
 		"assets",
 		"user",
+		"restserver",
 	);
 
 /*

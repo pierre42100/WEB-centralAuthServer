@@ -19,6 +19,27 @@ class Login extends Hat_Controller {
 		//Check for login ticket
 		$login_ticket = isset($_GET['login_ticket']) ? urlencode($_GET['login_ticket']) : "NONE";
 
+		//Check if form was submitted
+		if($this->input->post("inputEmail") !== NULL
+			&& $this->input->post("inputPassword") !== NULL){
+
+			//Extract fields
+			$email = $this->input->post("inputEmail");
+			$password = $this->input->post("inputPassword");
+
+			//Check email address
+			if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+				$error_msg = "Invalid email address !";
+
+			//Check password
+			if(strlen($password) < 5)
+				$error_msg = "Invalid password !";
+
+			//Try to login user
+			
+			
+		}
+
 		//Prepare page return
 		$page_src = "";
 
@@ -27,6 +48,12 @@ class Login extends Hat_Controller {
 			
 			//Login ticket
 			"login_ticket" => $login_ticket,
+
+			//Default values
+			"default_mail" => isset($default_mail) ? $default_mail : "",
+
+			//Error message
+			"error_msg" => isset($error_msg) ? $error_msg : false,
 
 		), true);
 

@@ -22,10 +22,10 @@ class Signup extends Hat_Controller {
 
 		//Check if an account creation request has been made
 		if(
-			$this->input->post("inputName") != NULL &&
-			$this->input->post("inputEmail") != NULL &&
-			$this->input->post("inputPassword") != NULL &&
-			$this->input->post("confirmPassword") != NULL
+			$this->input->post("inputName") !== NULL &&
+			$this->input->post("inputEmail") !== NULL &&
+			$this->input->post("inputPassword") !== NULL &&
+			$this->input->post("confirmPassword") !== NULL
 		){
 
 			//Extract informations

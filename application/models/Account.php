@@ -9,6 +9,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Account extends CI_Model {
 
+	/**
+	 * Public constructor
+	 */
+	public function __construct(){
+
+		//Model constructor
+		parent::__construct();
+
+		//Check for session variable
+		if(!isset($_SESSION))
+			show_error("Session system must be enabled for account controller !");
+
+	}
 
 	/**
 	 * Check wether a user is signed in or not

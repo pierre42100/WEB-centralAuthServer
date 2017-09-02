@@ -47,15 +47,28 @@ body {
 .form-signup .form-control:focus {
 	z-index: 2;
 }
-.form-signin input[type="email"],
-.form-signup input[type="email"] {
+.form-signin input[type="email"] {
 	margin-bottom: -1px;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
-.form-signin input[type="password"],
-.form-signup input[type="password"] {
+.form-signin input[type="password"] {
 	margin-bottom: 10px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+}
+
+.form-signup input {
+	margin-bottom: 30px;
+}
+
+.form-signin .bottomLinks {
+	font-size: 90%;
+	margin-bottom: 10px;
+}
+
+.form-signup .bottomLinks {
+	font-size: 90%;
+	margin-top: -15px;
+	margin-bottom: 15px;
 }

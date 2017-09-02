@@ -20,6 +20,10 @@ class Signup extends Hat_Controller {
 		//Check for login ticket
 		$login_ticket = isset($_GET['login_ticket']) ? urlencode($_GET['login_ticket']) : "NONE";
 
+		//Check if user is already signed in
+		if($this->account->signed_in())
+			redirect("?login_ticket=".$login_ticket);
+
 		//Check if an account creation request has been made
 		if(
 			$this->input->post("inputName") !== NULL &&

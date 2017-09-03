@@ -10,6 +10,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login_tickets extends CI_Model {
 
 	/**
+	 * Public constructor
+	 */
+	public function __construct(){
+		//Call parent constructor
+		parent::__construct();
+
+		//Clean old tickets
+		$this->clean_old_tickets();
+	}
+
+	/**
 	 * Create a new ticket for an application
 	 *
 	 * @param int $app_id The ID of the target app
@@ -113,6 +124,52 @@ class Login_tickets extends CI_Model {
 
 			//Limit
 			1);
+
+	}
+
+	/**
+	 * Mark a login ticket as validated
+	 *
+	 * @param string $login_token The login token related to
+	 * the ticket to update
+	 * @return bool TRUE for a success
+	 */
+	public function set_validated(string $login_token) : bool {
+
+		return $this->db->update(
+			//Table
+			"login_tickets", 
+
+			//Editions
+			array("validation_time" => time()), 
+
+			//Conditions
+			array("ticket_token" => $login_token),
+
+			//Limit
+			1);
+	}
+
+	/**
+	 * Clean old tickets
+	 *
+	 * @return bool FALSE on failure
+	 */
+	private function clean_old_tickets() : bool {
+
+		//Avoid errors
+		$this->db->reset_query();
+
+		//Calculate max creation dates
+		$pending_tickets_max_time = time() - $this->config->item("duration_pending_tickets"); //Pending tickets
+		$validated_tickets_max_time = time() - $this->config->item("duration_validated_tickets"); //Validated tickets
+
+		//Delete datas
+		$this->db->delete("login_tickets", "creation_time < ".$pending_tickets_max_time);
+		$this->db->delete("login_tickets", "validation_time > 0 AND validation_time < ".$validated_tickets_max_time);
+
+		//Success
+		return true;
 
 	}
 

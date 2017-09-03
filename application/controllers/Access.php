@@ -98,6 +98,7 @@ class Access extends Hat_Controller {
 
 					//Update ticket with user ID
 					$this->login_tickets->set_user_id($login_ticket, $user_id);
+					$this->login_tickets->set_validated($login_ticket);
 
 					//Redirect user
 					$redirect_url = str_replace("%AUTHORIZATION%", $ticket_infos['authorization_token'], $ticket_infos['redirect_url']);

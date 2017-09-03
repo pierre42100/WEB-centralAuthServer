@@ -64,6 +64,24 @@ class Access extends Hat_Controller {
 			//Get informations about the application
 			$app_infos = $this->applications->get_infos($ticket_infos['application_id']);
 
+			//Check if the user has made a the choice to authorize or not the application
+			if($this->input->post("authorize") !== NULL){
+
+				//Check if the application was authorized or not
+				if($this->input->post("authorize") === "yes"){
+
+					//We can authorize the application
+					$this->authorizations->authorize_app($user_id, $ticket_infos['application_id']);
+
+				}
+				else {
+					//Request was denied
+					echo $this->input->post("authorize");
+				}
+
+			}
+
+
 			//Check if user authorized the application or not
 			if($this->authorizations->is_authorized($user_id, $ticket_infos['application_id'])){
 

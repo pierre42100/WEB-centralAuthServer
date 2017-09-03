@@ -22,10 +22,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="buttons">
 
 		<!-- Deny -->
-		<button class="btn btn-secondary" type="submit" value="false" name="authorize">Deny</button>
+		<button class="btn btn-secondary" type="submit" value="no" name="authorize">Deny</button>
 
 		<!-- Allow -->
-		<button class="btn btn-primary" type="submit" value="true " name="authorize">Allow</button>
+		<button class="btn btn-primary" type="submit" value="yes" name="authorize">Allow</button>
 
 	</div>
 

@@ -76,38 +76,49 @@ class Access extends Hat_Controller {
 				}
 				else {
 					//Request was denied
-					echo $this->input->post("authorize");
+					//Delete login request
+					$this->login_tickets->delete($login_ticket);
+
+					//Redirect user to the application
+					$redirect_url = str_replace("%AUTHORIZATION%", "CANCEL", $ticket_infos['redirect_url']);
+
+					//Required box is redirection box
+					$box_src = $this->load->view("access/v_redirect", array(
+						"app_infos" => $app_infos, 
+						"redirect_url" => $redirect_url
+					), true);
 				}
 
 			}
 
+			//Continue only if the request was not denied
+			if(!isset($box_src)){
+				//Check if user authorized the application or not
+				if($this->authorizations->is_authorized($user_id, $ticket_infos['application_id'])){
 
-			//Check if user authorized the application or not
-			if($this->authorizations->is_authorized($user_id, $ticket_infos['application_id'])){
+					//Update ticket with user ID
+					$this->login_tickets->set_user_id($login_ticket, $user_id);
 
-				//Update ticket with user ID
-				$this->login_tickets->set_user_id($login_ticket, $user_id);
+					//Redirect user
+					$redirect_url = str_replace("%AUTHORIZATION%", $ticket_infos['authorization_token'], $ticket_infos['redirect_url']);
 
-				//Redirect user
-				$redirect_url = str_replace("%AUTHORIZATION%", $ticket_infos['authorization_token'], $ticket_infos['redirect_url']);
+					//Required box is redirection box
+					$box_src = $this->load->view("access/v_redirect", array(
+						"app_infos" => $app_infos, 
+						"redirect_url" => $redirect_url
+					), true);
 
-				//Required box is redirection box
-				$box_src = $this->load->view("access/v_redirect", array(
-					"app_infos" => $app_infos, 
-					"redirect_url" => $redirect_url
-				), true);
+				}
 
+				//Else we offer user to do so
+				else {
+					//Load authorize box
+					$box_src = $this->load->view("access/v_authorize_form", array(
+						"app_infos" => $app_infos,
+						"login_ticket" => $login_ticket,
+					), true);
+				}
 			}
-
-			//Else we offer user to do so
-			else {
-				//Load authorize box
-				$box_src = $this->load->view("access/v_authorize_form", array(
-					"app_infos" => $app_infos,
-					"login_ticket" => $login_ticket,
-				), true);
-			}
-
 
 		}
 

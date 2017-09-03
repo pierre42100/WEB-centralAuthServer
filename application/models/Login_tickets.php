@@ -39,6 +39,17 @@ class Login_tickets extends CI_Model {
 	}
 
 	/**
+	 * Delete a login token
+	 *
+	 * @param string $login_token The token to delete
+	 * @return bool TRUE in case of success
+	 */
+	public function delete(string $login_ticket) : bool {
+		$this->db->where("ticket_token", $login_ticket);
+		return $this->db->delete("login_tickets");
+	}
+
+	/**
 	 * Check wether a login request exists or not
 	 *
 	 * @param string $login_ticket The login ticket to check

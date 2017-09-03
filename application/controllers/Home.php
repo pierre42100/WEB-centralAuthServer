@@ -31,6 +31,11 @@ class Home extends Hat_Controller {
 		if(!$this->account->signed_in())
 			redirect("login?login_ticket=".$login_ticket);
 
+		//Check if a request token has been made or not
+		//Redirect to the authorize page
+		if($login_ticket !== "NONE")
+			redirect("access/authorize?login_ticket=".$login_ticket);
+
 		//Prepare page return
 		$page_src = "";
 

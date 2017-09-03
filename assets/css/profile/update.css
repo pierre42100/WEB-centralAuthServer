@@ -4,6 +4,11 @@
  * @author Pierre HUBERT
  */
 
+.go_home_link {
+	text-align: center;
+	margin-top: 20px;
+}
+
 .update_profile_form {
 	margin-top: 10px;
 }

@@ -34,4 +34,33 @@ class Applications extends CI_Model {
 	}
 
 
+	/**
+	 * Retrieve informations about an application
+	 *
+	 * @param int $app_id The ID of the application
+	 * @return array Informations about the application
+	 */
+	public function get_infos(int $app_id) : array {
+
+		//Query the database
+		$result = $this->db->where("id", $app_id)
+					->get("applications");
+
+		//Check for result
+		$infos = $result->result();
+
+		//Check for errors
+		if(count($infos) === 0)
+			return array(); //No result found
+
+		//Process & return result
+		return array(
+			"name" => $infos[0]->name,
+			"description" => $infos[0]->description,
+			"client_id" => $infos[0]->client_id,
+			"client_secret" => $infos[0]->client_secret,
+		);
+
+	}
+
 }

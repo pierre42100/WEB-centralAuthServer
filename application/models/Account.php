@@ -159,6 +159,15 @@ class Account extends CI_Model {
 	}
 
 	/**
+	 * Get current user ID
+	 *
+	 * @return int ID of the user
+	 */
+	public function get_current_id() : int {
+		return $_SESSION[$this->user_sess_var]['id'];
+	}
+
+	/**
 	 * Get informations about a user specified by its ID
 	 *
 	 * @param int $id The ID of the user to perform the search on

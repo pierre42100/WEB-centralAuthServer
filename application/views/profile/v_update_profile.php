@@ -16,7 +16,13 @@ $error_msg = isset($error_msg) ? $error_msg : FALSE;
 //Check for success message
 $success_msg = isset($success_msg) ? $success_msg : FALSE;
 
-?><form class="update_profile_form" method="post" action="<?php echo base_url(), "profile/update?login_ticket=", $login_ticket; ?>">
+?><!-- Go back home -->
+<div class="go_home_link">
+	<a href="<?php echo base_url(), "?login_ticket=", $login_ticket; ?>">Go back home</a>
+</div>
+
+<!-- Update form -->
+<form class="update_profile_form" method="post" action="<?php echo base_url(), "profile/update?login_ticket=", $login_ticket; ?>">
 
 	<!-- Error message -->
 	<?php if($error_msg) echo '<div class="error-msg text-danger">',$error_msg,'</div>'; ?>

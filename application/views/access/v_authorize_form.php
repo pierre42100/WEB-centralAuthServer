@@ -21,6 +21,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- Buttons -->
 	<div class="buttons">
 
+		<!-- CSRF token -->
+		<?php csrf_input_field(); ?>
+
 		<!-- Deny -->
 		<button class="btn btn-secondary" type="submit" value="no" name="authorize">Deny</button>
 

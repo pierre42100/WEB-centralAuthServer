@@ -24,6 +24,9 @@ $success_msg = isset($success_msg) ? $success_msg : FALSE;
 <!-- Update form -->
 <form class="update_profile_form" method="post" action="<?php echo base_url(), "profile/update?login_ticket=", $login_ticket; ?>">
 
+	<!-- CSRF token -->
+	<?php csrf_input_field(); ?>
+
 	<!-- Error message -->
 	<?php if($error_msg) echo '<div class="error-msg text-danger">',$error_msg,'</div>'; ?>
 

@@ -453,7 +453,7 @@ $config['csrf_token_name'] = 'csrf_token';
 $config['csrf_cookie_name'] = 'csrf_security';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array("api/v1/.+");
+$config['csrf_exclude_uris'] = array("api/.+");
 
 /*
 |--------------------------------------------------------------------------

@@ -14,6 +14,9 @@ $error_msg = isset($error_msg) ? $error_msg : false;
 
 	<form class="form-signup" method="post" action="<?php echo base_url(), "signup?login_ticket=", $login_ticket; ?>">
 
+		<!-- CSRF token -->
+		<?php csrf_input_field(); ?>
+
 		<!-- App name -->
 		<h2 class="form-signup-heading"><?php echo app_name(); ?></h2>
 

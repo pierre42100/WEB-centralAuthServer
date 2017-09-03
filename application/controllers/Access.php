@@ -81,9 +81,13 @@ class Access extends Hat_Controller {
 
 			}
 
-			//Else we offer him to do so
+			//Else we offer user to do so
 			else {
-
+				//Load authorize box
+				$box_src = $this->load->view("access/v_authorize_form", array(
+					"app_infos" => $app_infos,
+					"login_ticket" => $login_ticket,
+				), true);
 			}
 
 

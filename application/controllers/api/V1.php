@@ -21,6 +21,12 @@ class V1 extends CI_Controller {
 			//This is an error
 			restserver_error("Please specify client credentials !", 401);
 
+		//Check for other informations
+		if($this->input->post("redirect_url") === NULL)
+
+			//This is an error
+			restserver_error("Please specify a redirect url !", 400);
+
 		//Extract informations
 		$client_id = $this->input->post("client_id");
 		$client_secret = $this->input->post("client_secret");
@@ -32,7 +38,21 @@ class V1 extends CI_Controller {
 		if($app_id === 0)
 			restserver_error("Couldn't verify application credentials !", 401);
 
-		exit("OK");
+		//Generate login token
+		$ticket = $this->login_tickets->create($app_id);
+
+		//Check for error
+		if(strlen($ticket) < 5)
+			restserver_error("Couldn't create login ticket !", 500);
+
+		//Prepare result return
+		$result = array(
+			"login_ticket" => $ticket,
+			"login_url" => base_url()."?login_ticket=".$ticket,
+		);
+
+		//Return result
+		$ticket = restserver_response($result, 200, false);
 
 	}
 

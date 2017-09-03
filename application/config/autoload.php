@@ -92,6 +92,7 @@ $autoload['drivers'] = array();
 $autoload['helper'] = array(
 		//System helpers
 		"url",
+		"string",
 
 		//Application helpers
 		"application",
@@ -141,4 +142,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array("account", "applications");
+$autoload['model'] = array("account", "applications", "login_tickets");

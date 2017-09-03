@@ -14,8 +14,9 @@ if(!function_exists("restserver_response")){
 	 *
 	 * @param mixed $response The response content
 	 * @param int $code Response code (200, 400, ...)
+	 * @param bool exit Exit the script when response is returned
 	 */
-	function restserver_response($response, int $code = 200){
+	function restserver_response($response, int $code = 200, bool $exit = TRUE){
 
 		//Check if response is an array
 		if(is_array($response))
@@ -30,8 +31,9 @@ if(!function_exists("restserver_response")){
 		//Return response
 		echo $response;
 
-		//Quit application
-		exit();
+		//Quit application (if required)
+		if($exit)
+			exit();
 
 	}
 

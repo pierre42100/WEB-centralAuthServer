@@ -30,6 +30,7 @@ class V1 extends CI_Controller {
 		//Extract informations
 		$client_id = $this->input->post("client_id");
 		$client_secret = $this->input->post("client_secret");
+		$redirect_url = $this->input->post("redirect_url");
 
 		//Check application credentials & get application id
 		$app_id = $this->applications->get_id_from_credentials($client_id, $client_secret);
@@ -38,8 +39,13 @@ class V1 extends CI_Controller {
 		if($app_id === 0)
 			restserver_error("Couldn't verify application credentials !", 401);
 
+
+		//Check redirect url validity
+		if(!preg_match("/%AUTHORIZATION%/", $redirect_url))
+			restserver_error("Please specify a valid redirect url !", 401);
+
 		//Generate login token
-		$ticket = $this->login_tickets->create($app_id);
+		$ticket = $this->login_tickets->create($app_id, $redirect_url);
 
 		//Check for error
 		if(strlen($ticket) < 5)

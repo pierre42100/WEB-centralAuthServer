@@ -28,6 +28,14 @@ class Account extends CI_Model {
 		if(!isset($_SESSION))
 			show_error("Session system must be enabled for account controller !");
 
+		//Perform begin of page operations if user is signed in
+		if($this->signed_in()){
+
+			//Check last user activity
+			$this->check_last_activity();
+
+		}
+
 	}
 
 	/**
@@ -254,6 +262,26 @@ class Account extends CI_Model {
 	}
 
 	/**
+	 * Check & update last activity time of the user
+	 */
+	private function check_last_activity(){
+		//Check if can update last activity of the user
+		if(isset($_SESSION[$this->user_sess_var]['last_activity'])){
+
+			//Check if the time between now and last activity is too high
+			//Compute last allowed activity time
+			$min_last_activity_time = time() - $this->config->item("user_max_inactivity_time");
+
+			//Perform check
+			if($_SESSION[$this->user_sess_var]['last_activity'] < $min_last_activity_time)
+				$this->sign_out(); //Signout user
+			else
+				$_SESSION[$this->user_sess_var]['last_activity'] = time(); //Update last activity time
+
+		}
+	}
+
+	/**
 	 * Save user informations in user variable (sign in proof)
 	 *
 	 * @param stdClass $user_infos Informations about the user
@@ -265,6 +293,7 @@ class Account extends CI_Model {
 			"email" => $user_infos->email,
 			"name" => $user_infos->name,
 			"creation_time" => $user_infos->creation_time,
+			"last_activity" => time(),
 		);
 
 	}

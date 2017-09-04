@@ -12,6 +12,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $config['app_name'] = "centralAuth";
 
+/**
+ * Specify the time of inactivity after what the user is automatically
+ * signed out
+ *
+ * Specify the value in seconds
+ */
+$config['user_max_inactivity_time'] = 180; //3 Minutes
 
 /**
  * Length of the different tokens

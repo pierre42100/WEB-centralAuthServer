@@ -10,7 +10,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html>
 	<head>
+		<!-- Title of the page -->
 		<title><?php echo $page_title, " - ", app_name(); ?></title>
+
+		<!-- UTF-8 support -->
+        <meta charset="utf-8">
 
 		<!-- Include CSS files -->
 		<?php foreach($css_files as $file)

@@ -62,3 +62,17 @@ if(!function_exists('path_js_assets')){
 	}
 
 }
+
+if(!function_exists('path_img_assets')){
+
+	/**
+	 * Returns the path to a image asset file
+	 *
+	 * @param str $file The file to give the path to
+	 * @return str The full URL to asset
+	 */
+	function path_img_assets(string $file) : string {
+		return path_assets("img/".$file);
+	}
+
+}

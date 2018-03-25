@@ -26,7 +26,9 @@ $user = current_user_infos();
 			Signed in as <?php echo $user['name']; ?><br />
 			<a href="<?php echo base_url(), "?signout=1&login_ticket=", $login_ticket; ?>">Sign out</a>
 			&bull;
-			<a href="<?php echo base_url(), "profile/update?login_ticket=", $login_ticket; ?>">Update profile</a>
+			<a href="<?php echo base_url(), "profile/update?login_ticket=", $login_ticket; ?>">Profile</a>
+			&bull;
+			<a href="<?php echo base_url(), "access/list?login_ticket=", $login_ticket; ?>">Authorizations</a>
 		</div>
 
 

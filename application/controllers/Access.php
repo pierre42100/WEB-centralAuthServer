@@ -140,7 +140,42 @@ class Access extends Hat_Controller {
 		), TRUE);
 
 		//Load page structure
-		$this->display_page("Home", $css_files, array(), $page_src);
+		$this->display_page("Authorize application", $css_files, array(), $page_src);
+	}
+
+	/**
+	 * Display the list of authorized accesses
+	 */
+	public function list(){
+
+		//Check for login ticket
+		$login_ticket = isset($_GET['login_ticket']) ? urlencode($_GET['login_ticket']) : "NONE";
+
+		//Get the list of authorized apps
+		$apps_list = $this->authorizations->list($this->account->get_current_id());
+
+		$box_src = $this->load->view("access/v_list", array(
+			"list" => $apps_list
+		), true);
+
+		//Include specific CSS files
+		$css_files = array(
+			path_css_assets("common/signed_in_box"),
+		);
+
+		//Include logged in page
+		$page_src = $this->load->view("common/v_signed_in_box", array(
+
+			//Generic informations
+			"login_ticket" => $login_ticket,
+
+			//Box content
+			"box_content" => $box_src,
+
+		), TRUE);
+
+		//Load page structure
+		$this->display_page("Access List", $css_files, array(), $page_src);
 	}
 
 }

@@ -45,5 +45,31 @@ class Authorizations extends CI_Model {
 
 	}
 
+	/**
+	 * Get and return the list of authorized apps
+	 *
+	 * @param int $userID The ID of the target user
+	 * @return array The list of authorized apps
+	 */
+	public function list(int $userID) : array {
+
+		//Perform a request on the server
+		$this->db->from("authorizations");
+		$this->db->where("id_user", $userID);
+		$query = $this->db->get();
+
+		$list = array();
+		foreach($query->result() as $row){
+			$list[] = array(
+				"id" => $row->id,
+				"id_app" => $row->id_application,
+				"time_add" => $row->time_add,
+				"app_infos" => $this->applications->get_infos($row->id_application)
+			);
+		}
+
+		return $list;
+	}
+
 
 }
